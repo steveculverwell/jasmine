@@ -36,12 +36,6 @@ describe("Asynchrons specs", function(){
 
 });
 
-
-
-
-
-
-
 describe("A spy", function(){
 	var foo, bar = null;
 
@@ -100,16 +94,6 @@ describe("A spy, when configured to call through", function(){
 	});
 
 });
-
-
-
-
-
-
-
-
-
-
 
 describe("A suite", function(){
 	it("contains a spec with an exception", function(){
@@ -246,55 +230,3 @@ describe ("Pending Specs", function(){
 	it("can be declared with 'it' but without a function");
 
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
