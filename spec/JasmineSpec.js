@@ -1,3 +1,116 @@
+describe("Asynchrons specs", function(){
+
+	var value;
+
+  beforeEach(function(done) {
+    setTimeout(function() {
+      value = 0;
+      done();
+    }, 1);
+  });
+
+ it("should support async execution of test preparation and expectations", function(done) {
+    value++;
+    expect(value).toBeGreaterThan(0);
+    done();
+  });
+
+ 	describe("long Asynchrons specs", function(){
+ 		beforeEach(function(done){
+ 			done();
+ 		}, 1000);
+
+		it("takes a long time", function(done) {
+		      setTimeout(function() {
+		        done();
+		      }, 9000);
+		    }, 10000);
+
+		    afterEach(function(done) {
+		      done();
+		    }, 1000);
+ 		
+ 	});
+
+
+
+});
+
+
+
+
+
+
+
+describe("A spy", function(){
+	var foo, bar = null;
+
+	beforeEach(function(){
+		foo = {
+			setBar: function(value){
+				bar = value;
+			}
+		};
+
+		spyOn(foo, 'setBar');
+		foo.setBar(123);
+		foo.setBar(456, 'another param');		
+	});
+
+	it("tracks that the spy was called", function(){
+		expect(foo.setBar).toHaveBeenCalled();
+	});
+
+	it("tracks all the arguments of it calls", function(){
+		expect(foo.setBar).toHaveBeenCalledWith(123);
+		expect(foo.setBar).toHaveBeenCalledWith(456, 'another param');
+	});
+});
+
+describe("A spy, when configured to call through", function(){
+	var foo, bar, fetchedBar;
+
+	beforeEach(function(){
+
+		foo = {
+			setBar: function(value){
+				bar = value;
+			},
+			getBar: function(){
+				return bar;
+			}
+		};
+
+		spyOn(foo, 'getBar').and.callThrough();
+
+		foo.setBar(123);
+		fetchedBar = foo.getBar();
+	});
+
+	it("tracks that the spy was called", function() {
+		expect(foo.getBar).toHaveBeenCalled();
+	});
+	
+	it("should not affect other functions", function() {
+		expect(bar).toEqual(123);
+	});
+  
+	it("when called returns the requested value", function() {
+		expect(fetchedBar).toEqual(123);
+	});
+
+});
+
+
+
+
+
+
+
+
+
+
+
 describe("A suite", function(){
 	it("contains a spec with an exception", function(){
 		expect(true).toBe(true);
@@ -106,10 +219,33 @@ describe("A spec using beforeEach and afterEach", function(){
 	it("Can have more than one exception", function(){
 		expect(foo).toEqual(1);
 		expect(true).toEqual(true);
-	});
+	}); 
 });
 
 
+describe("A spec", function(){
+	beforeEach(function(){this.foo = 0;});
+	
+	it("can use 'this' to share state", function(){
+		expect(this.foo).toEqual(0);
+	});
+
+	it("prevents test pollution by having an empty `this` created for the next spec", function() {
+		expect(this.foo).toEqual(0);
+		expect(this.bar).toBe(undefined);
+	});	
+
+});
+
+describe ("Pending Specs", function(){
+	
+	xit("can be declared xit", function(){
+		expect(true).toBe(false);
+	});
+
+	it("can be declared with 'it' but without a function");
+
+});
 
 
 
